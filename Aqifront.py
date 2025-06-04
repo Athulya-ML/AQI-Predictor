@@ -1,6 +1,7 @@
 import streamlit as st
 import pickle
 
+
 st.markdown("""
     <style>
         body {
@@ -9,9 +10,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+
 st.title("Air Quality Index Predictor")
+
 st.markdown("""
-<h3 style='text-decoration: underline; color: #2e8b57;'>About the project</h3>
+<h3 style='text-decoration: underline; color: #2e8b57;'>📘 About the project</h3>
 <div style='background-color: #e6f7ff; border: 2px solid #3399ff; padding: 20px; 
             border-radius: 10px; font-size: 16px; line-height: 1.6; color: #003366;'>
 Air pollution is one of the most critical environmental issues impacting human health and ecosystems globally. 
@@ -29,8 +32,10 @@ Using regression algorithms like Random Forest, we aim to estimate AQI based on 
 visualize trends for better environmental management and public awareness.
 </div>
 """, unsafe_allow_html=True)
+
 st.image(r"C:\Users\akhil\OneDrive\Pictures\Saved Pictures\26840.jpg", use_container_width=True)
-st.subheader("Enter Pollutant Concentrations:")
+
+st.subheader("🧪 Enter Pollutant Concentrations:")
 CO = st.number_input("Carbon Monoxide (CO)")
 Ozone = st.number_input("Ozone (O₃)")
 NO = st.number_input("Nitric Oxide (NO)")
@@ -41,30 +46,34 @@ SO2 = st.number_input("Sulphur Dioxide (SO₂)")
 PM25 = st.number_input("Particulate Matter ≤ 2.5 μm (PM2.5)")
 PM10 = st.number_input("Particulate Matter ≤ 10 μm (PM10)")
 
-if st.button("Predict"):
 
-        file=open(r'C:\Users\akhil\Downloads\li.pkl', 'rb')
+if st.button("🚀 Predict AQI"):
+    with open(r'C:\Users\akhil\Downloads\li.pkl', 'rb') as file:
         classifier = pickle.load(file)
         prediction = classifier.predict([[CO, Ozone, NO, NO2, NOX, NH3, SO2, PM25, PM10]])
         predicted_aqi = prediction[0]
 
+        st.markdown(f"### 🧾 Predicted AQI: `{round(predicted_aqi, 2)}`")
+
         if predicted_aqi <= 50:
-            st.success("Good ✅")
+            st.success("🟢 Good")
         elif predicted_aqi <= 100:
-            st.info("Moderate 🌤️")
+            st.info("🟡 Moderate 🌤️")
         elif predicted_aqi <= 150:
-            st.warning("Unhealthy for Sensitive Groups ⚠️")
+            st.warning("🟠 Unhealthy for Sensitive Groups ⚠️")
         elif predicted_aqi <= 200:
-            st.error("Unhealthy 🛑")
+            st.error("🔴 Unhealthy 🛑")
         elif predicted_aqi <= 300:
-            st.error("Very Unhealthy ☣️")
+            st.error("🟣 Very Unhealthy ☣️")
         elif predicted_aqi <= 500:
-            st.error("Hazardous ☠️")
+            st.error("☠️ Hazardous")
         else:
-            st.write("No data 💼")
+            st.warning("📉 AQI value out of range")
+
+
 st.image(r"C:\Users\akhil\Downloads\WhatsApp Image 2025-06-03 at 6.22.58 PM.jpeg",
          caption="AQI Classification Scale",
          use_container_width=True)
+
+
 st.markdown("🧠 Built with Machine Learning · 🌏 For cleaner air in Kerala!")
-
-
